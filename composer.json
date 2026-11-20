@@ -8,13 +8,8 @@
       "LegalDocs\\Client\\": "src/"
     }
   },
-  "scripts": {
-    "post-install-cmd": [
-      "@php vendor/meynard-peakroi/legal-client/bin/install.php"
-    ]
-  },
   "bin": [
-    "bin/legaldocs-install.sh"
+    "bin/legaldocs-install"
   ],
   "require": {
     "php": "^8.4.27"
