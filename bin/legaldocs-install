@@ -1,18 +1,38 @@
 <?php
 
 $packageRoot = dirname(__DIR__);
-$projectRoot = dirname(dirname(dirname(dirname(__FILE__))));
+$siteRoot = preg_replace(
+    '#/releases/\d+$#',
+    '',
+    getcwd()
+);
+$legalDir = $siteRoot . '/legal';
+
+if (! is_dir($legalDir)) {
+    mkdir($legalDir, 0755, true);
+    echo "Created: {$legalDir}" . PHP_EOL;
+}
+
+echo "Package Dir: {$packageRoot}" . PHP_EOL;
+echo "Legal Dir: {$legalDir}" . PHP_EOL;
 
 $files = [
-        $packageRoot . '/resources/bootstrap-legal.php' => $projectRoot . '/bootstrap-legal.php',
-        $packageRoot . '/resources/.env.legal.example' => $projectRoot . '/.env',
+    $packageRoot . '/resources/bootstrap-legal.php' => $legalDir . '/bootstrap-legal.php',
+    $packageRoot . '/resources/config.php' => $legalDir . '/config.php',
 ];
 
 foreach ($files as $source => $destination) {
-    if (! file_exists($destination)) {
-        copy($source, $destination);
-        echo sprintf("Published: %s\n", basename($destination));
+    if (file_exists($destination)) {
+        echo "Skipped: {$destination}" . PHP_EOL;
+        continue;
+    }
+
+    $result = copy($source, $destination);
+    if ($result) {
+        echo "Copied: {$source}" . PHP_EOL;
+        echo "Published: {$destination}" . PHP_EOL;
     } else {
-        echo sprintf("Skipped: %s already exists\n", basename($destination));
+        echo "Failed: {$destination}" . PHP_EOL;
+        var_dump(error_get_last());
     }
 }
