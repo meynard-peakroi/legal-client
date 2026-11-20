@@ -13,8 +13,8 @@ class LegalDocumentRenderer
         LegalClientService $client,
         string $slug,
     ): string {
-        $document = $client->getDocument($slug);
-
-        return $document->contentHtml;
+        return $client
+            ->getDocument($slug)
+            ->contentHtml;
     }
 }

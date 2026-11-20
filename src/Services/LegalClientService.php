@@ -61,10 +61,18 @@ readonly class LegalClientService implements LegalClientInterface
             throw new RuntimeException("Legal API returned HTTP {$status}");
         }
 
-        return json_decode(
+        $payload = json_decode(
             $response,
             true,
             flags: JSON_THROW_ON_ERROR
+        );
+
+        return new LegalDocument(
+            title: $payload['title'] ?? '',
+            slug: $payload['slug'] ?? '',
+            contentHtml: $payload['content_html'] ?? '',
+            effectiveDate: $payload['effective_date'] ?? null,
+            version: $payload['version'] ?? null,
         );
     }
 }

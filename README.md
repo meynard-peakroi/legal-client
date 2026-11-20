@@ -11,8 +11,24 @@ This package is used as an API client to the Legal Document Platform which can u
 ## Setup
 
  - Install package via composer
+ - Create a new composer file if not exists
 ```bash
-composer require meynard-peakroi/legal-client
+touch composer.json
+```
+ - Edit composer file and paste code below `nano composer.json`
+```json
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:meynard-peakroi/legal-client.git"
+    }
+  ],
+
+  "require": {
+    "meynard-peakroi/legal-client": "^1.0"
+  }
+}
 ```
 
  - Install the package
